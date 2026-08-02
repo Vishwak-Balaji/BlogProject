@@ -3,6 +3,6 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return HttpResponse("hi")
+    return render(request,'blog/index.html')
 def detail(request,post_id):
-    return HttpResponse(f"Post_id = {post_id}")
+    return render(request,'blog/detail.html')
