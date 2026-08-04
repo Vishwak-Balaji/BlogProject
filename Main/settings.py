@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'Main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blog',
+        'USER':'root',
+        'PASSWORD':'root',
+        'HOST':'localhost',
+        'POST':'3306'
     }
 }
 
