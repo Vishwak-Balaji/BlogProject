@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+import logging
 
 # Create your views here.
 
@@ -11,7 +12,11 @@ posts = [
 ]
 def index(request):
     blog_title = 'Latest posts'
-
     return render(request,'blog/index.html',{'blog_title': blog_title , 'posts':posts})
+
+
 def detail(request,post_id):
-    return render(request,'blog/detail.html')
+    post = next((item for item in posts if item['id']== int(post_id)),None)
+    logger = logging.getLogger('Testing')
+    logger.debug(f"Post variable is {post}")
+    return render(request,'blog/detail.html',{'post':post})
