@@ -2,16 +2,21 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import logging
 
-# Create your views here.
+from Blog.models import Post
 
-posts = [
-    {"id": 1, "title": "Post 1", "content": "Content of post 1"},
-    {"id": 2, "title": "Post 2", "content": "Content of post 2"},
-    {"id": 3, "title": "Post 3", "content": "Content of post 3"},
-    {"id": 4, "title": "Post 4", "content": "Content of post 4"},
-]
+
+# Create your views here.
+#
+# static data which is not required
+# posts = [
+#     {"id": 1, "title": "Post 1", "content": "Content of post 1"},
+#     {"id": 2, "title": "Post 2", "content": "Content of post 2"},
+#     {"id": 3, "title": "Post 3", "content": "Content of post 3"},
+#     {"id": 4, "title": "Post 4", "content": "Content of post 4"},
+# ]
 def index(request):
     blog_title = 'Latest posts'
+    posts = Post.objects.all()
     return render(request,'blog/index.html',{'blog_title': blog_title , 'posts':posts})
 
 
