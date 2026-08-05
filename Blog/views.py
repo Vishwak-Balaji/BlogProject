@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import logging
 
 from Blog.models import Post
@@ -21,7 +21,13 @@ def index(request):
 
 
 def detail(request,post_id):
-    post = next((item for item in posts if item['id']== int(post_id)),None)
+    # static data which is not rquired now
+    # post = next((item for item in posts if item['id']== int(post_id)),None)
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Page does not exist")
+
     logger = logging.getLogger('Testing')
     logger.debug(f"Post variable is {post}")
     return render(request,'blog/detail.html',{'post':post})
