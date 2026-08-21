@@ -1,9 +1,8 @@
 from typing import Any
-
 from django.db.models import Model
 from django.core.management.base import BaseCommand
-
-from Blog.models import Post
+from Blog.models import Post,Catagory
+import random
 
 class Command(BaseCommand):
 
@@ -82,7 +81,10 @@ class Command(BaseCommand):
             "https://picsum.photos/id/20/800/400",
         ]
 
+        catagories = Catagory.objects.all()
+
         for titles, contents , img_urls in zip(titles,contents,img_urls):
-            Post.objects.create(titles=titles,contents=contents,img_urls=img_urls)
+            catagory = random.choice(catagories)
+            Post.objects.create(titles=titles,contents=contents,img_urls=img_urls,catagory=catagory)
 
         self.stdout.write(self.style.SUCCESS("Completed Inserting Data"))
