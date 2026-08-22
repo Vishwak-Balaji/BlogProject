@@ -25,9 +25,10 @@ def detail(request,slug):
     # post = next((item for item in posts if item['id']== int(post_id)),None)
     try:
         post = Post.objects.get(slug=slug)
+        related_posts = Post.objects.filter(catagory = post.catagory).exclude(pk=post.id)
     except Post.DoesNotExist:
         raise Http404("Page does not exist")
 
     logger = logging.getLogger('Testing')
     logger.debug(f"Post variable is {post}")
-    return render(request,'blog/detail.html',{'post':post})
+    return render(request,'blog/detail.html',{'post':post , 'related_posts': related_posts})
