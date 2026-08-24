@@ -1,10 +1,12 @@
+import logging
+
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
-import logging
 from Blog.models import Post
 from django.core.paginator import Paginator
 from .forms import ContactForm
 
+logger = logging.getLogger('Testing')
 
 # Create your views here.
 #
@@ -41,8 +43,27 @@ def detail(request,slug):
 
 def contact_view(request):
     if request.method == 'POST':
-       form = ContactForm(request.POST)
-       if form.is_valid():
-           logger = logging.getLogger('Testing')
-           logger.debug(f"Post data is {form.cleaned_data['name']} , {form.cleaned_data['email']} , {form.cleaned_data['message']}")
-    return render(request, 'blog/contact.html')
+        form = ContactForm(request.POST)
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        if form.is_valid():
+            logger.debug(
+                f"Post data is {form.cleaned_data['name']} , "
+                f"{form.cleaned_data['email']} , "
+                f"{form.cleaned_data['message']}"
+            )
+            #     send email or save in database
+            success_message = 'your email has been sent!'
+            return render(request, 'blog/contact.html',
+                          {'form': form, 'success_message':success_message})
+
+
+        else:
+            logger.debug("form validation failure")
+
+        return render(request, 'blog/contact.html', {'form': form , 'name':name , 'email':email , 'message':message})
+
+    form = ContactForm()
+    return render(request, 'blog/contact.html', {'form': form})
