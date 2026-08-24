@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 import logging
 from Blog.models import Post
 from django.core.paginator import Paginator
+from .forms import ContactForm
 
 
 # Create your views here.
@@ -37,3 +38,11 @@ def detail(request,slug):
     logger = logging.getLogger('Testing')
     logger.debug(f"Post variable is {post}")
     return render(request,'blog/detail.html',{'post':post , 'related_posts': related_posts})
+
+def contact_view(request):
+    if request.method == 'POST':
+       form = ContactForm(request.POST)
+       if form.is_valid():
+           logger = logging.getLogger('Testing')
+           logger.debug(f"Post data is {form.cleaned_data['name']} , {form.cleaned_data['email']} , {form.cleaned_data['message']}")
+    return render(request, 'blog/contact.html')
